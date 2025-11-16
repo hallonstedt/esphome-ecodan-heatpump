@@ -8,7 +8,7 @@ It is highly inspired by https://github.com/BartGijsbers/CN105Gateway.
 - [Installing](#installing)
   - [If you are experienced with ESPHome](#if-you-are-experienced-with-esphome)
   - [If you are new to ESPHome](#if-you-are-new-to-esphome)
-  - [If you already installed an ESP-device and want to upgrade it](#If you already installed an ESP-device and want to upgrade it)
+  - [If you already installed an ESP-device and want to upgrade it](#if-you-already-installed-an-esp-device-and-want-to-upgrade-it)
 - [Cookbook](#cookbook)
 - [Contributing](#contributing)
 - [Help](#help)
