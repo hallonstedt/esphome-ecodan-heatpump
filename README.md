@@ -109,7 +109,7 @@ This assumes you have provided an OTA key, that the device is connected to WiFi 
 1. Open **ESPHome** from **Settings / Add-ons**. Click **OPEN WEB UI**
 2. Click the **three dots** in the bottom right corner of your device and select **Install**
 3. Select **Wirelessly** and the YAML code will pull the latest git repository code and install. Note that there is no confirmation requested, It'll start installing immediately.
-4. Check **Settings / Devices / ESPHome / Heatpump** for any sensor name updates so your defined numnbers, sensors and climate entotoes still work.
+4. Check **Settings / Devices / ESPHome / Heatpump** for any sensor name updates so your defined numnbers, sensors and climate entities still work.
 
 ## Cookbook
 ### Set room temperature from a remote sensor
