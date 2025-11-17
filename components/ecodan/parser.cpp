@@ -156,63 +156,18 @@ static string parseDeFrost(uint8_t *packet, uint8_t index) {
 }
 
 static string parseHeatCool(uint8_t *packet, uint8_t index) {
-	uint8_t v = packet[index];
-
-	// 1) basic decoding, keep old behavior for 0,1,2,4
-	const char *basic;
-	switch (v) {
-	case 0:
-		basic = "Off";
-		break;
-	case 1:
-	case 2:
-		basic = "Heating";
-		break;
-	case 4:
-		basic = "Cooling";
-		break;
-	default:
-		basic = "Unknown-basic";
-		break;
-	}
-
-	// 2) interpret bits
-	bool heat = (v & 0x01) != 0;
-	bool dhw  = (v & 0x02) != 0;
-	bool cool = (v & 0x04) != 0;
-
-	const char *combo;
-	if (!heat && !dhw && !cool) {
-		combo = "all_off";
-	} else if (heat && !dhw && !cool) {
-		combo = "heat_only";
-	} else if (!heat && dhw && !cool) {
-		combo = "dhw_only";
-	} else if (!heat && !dhw && cool) {
-		combo = "cool_only";
-	} else if (heat && dhw && !cool) {
-		combo = "heat+dhw";
-	} else if (heat && !dhw && cool) {
-		combo = "heat+cool";
-	} else if (!heat && dhw && cool) {
-		combo = "dhw+cool";
-	} else {
-		combo = "heat+dhw+cool";
-	}
-
-	char textStr[120];
-	sprintf(textStr,
-			"raw=0x%02X basic=%s bits[heat=%d,dhw=%d,cool=%d] combo=%s",
-			v,
-			basic,
-			heat ? 1 : 0,
-			dhw ? 1 : 0,
-			cool ? 1 : 0,
-			combo);
-
-	return textStr;
+  switch (packet[index]) {
+  case 0:
+    return "Off";
+  case 1:
+  case 2:
+    return "Heating Mode";
+  case 4:
+    return "Cooling Mode";
+  default:
+    return unknownValue(packet[index]);
+  }
 }
-
 
 static string parseDate(uint8_t *packet, uint8_t index) {
   char textStr[50];
