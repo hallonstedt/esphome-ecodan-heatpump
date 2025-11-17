@@ -208,7 +208,7 @@ static string parseHeatStage(uint8_t *packet, uint8_t index) {
   case 8:
     return "Booster 6kW";
   case 9:
-    return "Booster 9kW";
+    return "Booster 9kW"; 
   default:
     return unknownValue(packet[index]);
   }
