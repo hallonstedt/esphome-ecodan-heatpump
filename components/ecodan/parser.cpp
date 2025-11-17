@@ -192,11 +192,23 @@ static string parseHeatStage(uint8_t *packet, uint8_t index) {
   case 0:
     return "Off";
   case 1:
-    return "Normal";
+    return "Heating - Economy";
   case 2:
-    return "Boost";
+    return "Heating - Normal";
   case 3:
-    return "Hot Water";
+    return "Hot Water"; // Not used for my heater
+  case 4:
+    return "Heating - Stage 1";
+  case 5:
+    return "Heating - Stage 2";
+  case 6:
+    return "Heating - Stage 3";
+  case 7:
+    return "Booster 3kW";
+  case 8:
+    return "Booster 6kW";
+  case 9:
+    return "Booster 9kW";
   default:
     return unknownValue(packet[index]);
   }
