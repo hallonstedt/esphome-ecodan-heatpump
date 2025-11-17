@@ -41,7 +41,7 @@ The ESP-01S board is not able to receive the updated code unless it is put into 
 2. Now your screen should have a device with the name you selected and state **OFFLINE**
 * Click **Edit* to open the device specific yaml-file
 * Copy the OTA: password to the scratch-pad you used for the encryption key. It looks something like this: *"a248d5bc6dae01010101670250c1aadadac1"*
-3. Replace all of the template *yaml* code with the contents in [heatpump.yaml](./examples/heatpump.yaml) located in the examples folder of this repository
+3. Replace all of the template *yaml* code with the contents in [heatpump.yaml](./heatpump.yaml) located in the root folder of this repository
 * Click **SAVE** in the upper right corner and close the file with the **X** on the left side, next to the filename.
 4. Open the secrets file by clicking **SECRETS** in the upper right corner of the ESPHome Web UI. Add your Wi-Fi credentials along with the OTA password and the encryption key. It should look something like this;
 
