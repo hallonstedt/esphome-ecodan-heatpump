@@ -1,43 +1,30 @@
-substitutions:
-  name: heatpump
-  friendlyName: Heatpump
-
-esphome:
-  name: ${name}
-  friendly_name: ${friendlyName}
-
 external_components:
-  - source: github://hallonstedt/esphome-ecodan-heatpump@heat-stage-logging
-    components: [ecodan]
-    refresh: always
+  - source: github://tobias-93/esphome-ecodan-heatpump@future-climate-2zone
+    components: [ ecodan ]
 
 logger:
   baud_rate: 0
 
-esp8266:
-  board: esp01_1m
+api:
 
 ota:
-  - platform: esphome
-    password: !secret heatpump_ota_password
-
-api:
-  encryption:
-    key: !secret heatpump_encryption_key
 
 wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
+# remove leading '#' and fill in your wifi details
+#  ssid: !secret wifi_ssid
+#  password: !secret wifi_password
 
-# Hardening: no captive_portal, no AP. If you want to enable fallback hotspot in case wifi connection fails, uncomment below.
-#  ap:
-#    ssid: "${friendlyName} Fallback Hotspot"
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "${friendlyName} Fallback Hotspot"
 
-#captive_portal:
+captive_portal:
 
+# Enable Web server.
 web_server:
   port: 80
 
+# Sync time with Home Assistant.
 time:
   - platform: homeassistant
     id: homeassistant_time
@@ -53,7 +40,6 @@ uart:
 ecodan:
   id: ecodan_instance
   uart_id: ecodan_uart
-
 
 text_sensor:
   - platform: version
