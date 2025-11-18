@@ -190,25 +190,25 @@ static string parseOnOffText(uint8_t *packet, uint8_t index) {
 static string parseHeatStage(uint8_t *packet, uint8_t index) {
   switch (packet[index]) {
   case 0:
-    return "Off";
+    return "0 - Off";
   case 1:
-    return "Heating - Economy";
+    return "1 - Economy";
   case 2:
-    return "Heating - Normal";
+    return "2 - Normal";
   case 3:
-    return "Hot Water"; // Not used for my heater
+    return "3 - 3kW";
   case 4:
-    return "Heating - Stage 1";
+    return "4 - HP Stage 1";
   case 5:
-    return "Heating - Stage 2";
+    return "5 - HP Stage 2";
   case 6:
-    return "Heating - Stage 3";
+    return "6 - HP Stage 3";
   case 7:
-    return "Booster 3kW";
+    return "7 - HP + 3kW";
   case 8:
-    return "Booster 6kW";
+    return "8 - HP + 6kW";
   case 9:
-    return "Booster 9kW"; 
+    return "9 - HP + 9kW"; 
   default:
     return unknownValue(packet[index]);
   }
