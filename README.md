@@ -1,3 +1,6 @@
+# Do **NOT** use this fork!
+It is used for reverse-engineering some values that will later be pushed to the main repository.
+
 # ESPHome components for Ecodan heatpumps
 This is a set of components to read out and control Mitsubishi Ecodan heatpumps. I have an ERST20D-VM2D and it is also confirmed to work with EHSD20D-YM9D. It probably works for many air-water heatpumps with CN105 connector. 
 
