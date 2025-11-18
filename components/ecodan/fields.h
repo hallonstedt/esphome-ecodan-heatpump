@@ -27,6 +27,8 @@ enum varTypeEnum {
   VarType_2BYTEHEXVALUE,
   VarType_ON_OFF,
   VarType_HEAT_STAGE,
+  VarType_HEAT_SOURCE,
+  VarType_HOT_WATER_PHASE,
   VarType_TOTAL_ENERGY,
 };
 
@@ -65,7 +67,13 @@ DEFINE_FIELD(runtime, 0x13, 8, VarType_RUNTIME);
 // zone_activity_status is using 0x03 index 13, which is undocumented.
 // It seems to behave as the documented index 8 (3 = Z2 heating, 2 = Z1 heating, 1 = Both Zones heating, 0 = Idle)
 DEFINE_FIELD(zone_activity_status, 0x03, 13, VarType_DECVALUE);
+DEFINE_FIELD(primary_current_limit_raw, 0x05, 10, VarType_DECVALUE);
 DEFINE_FIELD(water_flow, 0x14, 17, VarType_DECVALUE);
+DEFINE_FIELD(mixing_tank_temperature, 0x0f, 6, VarType_TEMPERATURE);
+DEFINE_FIELD(condenser_temperature, 0x0f, 9, VarType_TEMPERATURE);
+DEFINE_FIELD(booster_stage_1_active, 0x14, 7, VarType_DECVALUE);
+DEFINE_FIELD(booster_stage_2_active, 0x14, 8, VarType_DECVALUE);
+DEFINE_FIELD(immersion_heater_active, 0x14, 10, VarType_DECVALUE);
 DEFINE_FIELD(hot_water_setpoint, 0x26, 13, VarType_TEMPERATURE);
 DEFINE_FIELD(zone1_flow_temp_setpoint2, 0x26, 15, VarType_TEMPERATURE);
 DEFINE_FIELD(zone2_flow_temp_setpoint2, 0x26, 17, VarType_TEMPERATURE);
@@ -83,6 +91,8 @@ DEFINE_FIELD(energy_consumed_increasing, 0x07, 16, VarType_TOTAL_ENERGY);
 DEFINE_FIELD(date_time, 0x01, 6, VarType_TIME_DATE);
 DEFINE_FIELD(defrost, 0x02, 8, VarType_DEFROST);
 DEFINE_FIELD(heating_stage, 0x07, 9, VarType_HEAT_STAGE);
+DEFINE_FIELD(heat_source_mode, 0x05, 11, VarType_HEAT_SOURCE);
+DEFINE_FIELD(hot_water_phase, 0x05, 12, VarType_HOT_WATER_PHASE);
 DEFINE_FIELD(operating_mode, 0x26, 9, VarType_OPERATING_MODE);
 DEFINE_FIELD(hot_water_mode, 0x26, 10, VarType_HW_MODE);
 DEFINE_FIELD(mode_select, 0x26, 11, VarType_MODE_SETTING);

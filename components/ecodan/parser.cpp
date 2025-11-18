@@ -169,6 +169,36 @@ static string parseHeatCool(uint8_t *packet, uint8_t index) {
   }
 }
 
+static string parseHeatSource(uint8_t *packet, uint8_t index) {
+  switch (packet[index]) {
+  case 0:
+    return "Heat pump";
+  case 1:
+    return "Immersion heater";
+  case 2:
+    return "Booster heater";
+  case 3:
+    return "Immersion + booster";
+  case 4:
+    return "Boiler";
+  default:
+    return unknownValue(packet[index]);
+  }
+}
+
+static string parseHotWaterPhase(uint8_t *packet, uint8_t index) {
+  switch (packet[index]) {
+  case 0:
+    return "Off";
+  case 1:
+    return "Heat pump phase";
+  case 2:
+    return "Electric heater phase";
+  default:
+    return unknownValue(packet[index]);
+  }
+}
+
 static string parseDate(uint8_t *packet, uint8_t index) {
   char textStr[50];
   sprintf(textStr, "20%d/%02d/%02d", packet[index],
@@ -228,6 +258,10 @@ string parsePacketTextItem(uint8_t *packet, varTypeEnum varType, uint8_t index) 
     return parseDeFrost(packet, index);
   case VarType_HEAT_COOL:
     return parseHeatCool(packet, index);
+  case VarType_HEAT_SOURCE:
+    return parseHeatSource(packet, index);
+  case VarType_HOT_WATER_PHASE:
+    return parseHotWaterPhase(packet, index);
   case VarType_DATE:
     return parseDate(packet, index);
   case VarType_ON_OFF:

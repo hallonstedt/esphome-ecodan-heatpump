@@ -68,6 +68,10 @@ text_sensor:
       name: Defrost
     heating_stage:
       name: Heating stage
+    heat_source_mode:
+      name: Heat source mode
+    hot_water_phase:
+      name: Hot water phase
     operating_mode:
       name: Operating mode
     heat_cool:
@@ -112,8 +116,20 @@ sensor:
       name: Legionella temperature setpoint
     runtime:
       name: Runtime
+    primary_current_limit_raw:
+      name: Primary current limit (raw)
+    mixing_tank_temperature:
+      name: Mixing tank temperature
+    condenser_temperature:
+      name: Condenser temperature
     water_flow:
       name: Water flow
+    booster_stage_1_active:
+      name: Booster stage 1 active
+    booster_stage_2_active:
+      name: Booster stage 2 active
+    immersion_heater_active:
+      name: Immersion heater active
     energy_cons_yesterday:
       name: Heating energy consumption (yesterday)
       id: energy_cons_yesterday

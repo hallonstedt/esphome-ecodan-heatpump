@@ -91,6 +91,20 @@ CONFIG_SCHEMA = cv.Schema(
             device_class=DEVICE_CLASS_TEMPERATURE,
             state_class=STATE_CLASS_MEASUREMENT,
         ),
+        cv.Optional("mixing_tank_temperature"): sensor.sensor_schema(
+            unit_of_measurement=UNIT_CELSIUS,
+            icon="mdi:thermometer-water",
+            accuracy_decimals=1,
+            device_class=DEVICE_CLASS_TEMPERATURE,
+            state_class=STATE_CLASS_MEASUREMENT,
+        ),
+        cv.Optional("condenser_temperature"): sensor.sensor_schema(
+            unit_of_measurement=UNIT_CELSIUS,
+            icon="mdi:thermometer-lines",
+            accuracy_decimals=1,
+            device_class=DEVICE_CLASS_TEMPERATURE,
+            state_class=STATE_CLASS_MEASUREMENT,
+        ),
         cv.Optional("legionella_temp_setpoint"): sensor.sensor_schema(
             unit_of_measurement=UNIT_CELSIUS,
             icon="mdi:bacteria",
@@ -109,11 +123,30 @@ CONFIG_SCHEMA = cv.Schema(
             icon="mdi:home-thermometer",
             entity_category=ENTITY_CATEGORY_DIAGNOSTIC,
         ),
+        cv.Optional("primary_current_limit_raw"): sensor.sensor_schema(
+            icon="mdi:current-ac",
+            entity_category=ENTITY_CATEGORY_DIAGNOSTIC,
+        ),
         
         cv.Optional("water_flow"): sensor.sensor_schema(
             unit_of_measurement="l/m",
             icon="mdi:waves-arrow-right",
             state_class=STATE_CLASS_MEASUREMENT,
+        ),
+        cv.Optional("booster_stage_1_active"): sensor.sensor_schema(
+            icon="mdi:flash",
+            accuracy_decimals=0,
+            entity_category=ENTITY_CATEGORY_DIAGNOSTIC,
+        ),
+        cv.Optional("booster_stage_2_active"): sensor.sensor_schema(
+            icon="mdi:flash-outline",
+            accuracy_decimals=0,
+            entity_category=ENTITY_CATEGORY_DIAGNOSTIC,
+        ),
+        cv.Optional("immersion_heater_active"): sensor.sensor_schema(
+            icon="mdi:water-boiler",
+            accuracy_decimals=0,
+            entity_category=ENTITY_CATEGORY_DIAGNOSTIC,
         ),
         cv.Optional("energy_cons_yesterday"): sensor.sensor_schema(
             unit_of_measurement=UNIT_KILOWATT_HOURS,

@@ -87,6 +87,8 @@ text_sensor:
       name: Defrost
     heating_stage:
       name: Heating stage
+    heat_source_mode:
+      name: Heat source mode
     operating_mode:
       name: Operating mode
     heat_cool:
@@ -102,6 +104,9 @@ text_sensor:
   - platform: ecodan
     hot_water_timer:
       name: Hot water timer
+      device_id: hotwater_device
+    hot_water_phase:
+      name: Hot water phase
       device_id: hotwater_device
 
 sensor:
@@ -129,6 +134,12 @@ sensor:
       name: Water return temperature
     runtime:
       name: Runtime
+    primary_current_limit_raw:
+      name: Primary current limit (raw)
+    mixing_tank_temperature:
+      name: Mixing tank temperature
+    condenser_temperature:
+      name: Condenser temperature
     water_flow:
       name: Water flow
     energy_consumed_increasing:
@@ -163,6 +174,15 @@ sensor:
       device_id: hotwater_device
     legionella_temp_setpoint:
       name: Legionella temperature setpoint
+      device_id: hotwater_device
+    booster_stage_1_active:
+      name: Booster stage 1 active
+      device_id: hotwater_device
+    booster_stage_2_active:
+      name: Booster stage 2 active
+      device_id: hotwater_device
+    immersion_heater_active:
+      name: Immersion heater active
       device_id: hotwater_device
     energy_dhw_cons_yesterday:
       name: Hot water energy consumption (yesterday)

@@ -18,6 +18,8 @@ CONFIG_SCHEMA = cv.Schema(
         ),
         cv.Optional("defrost"): text_sensor.text_sensor_schema(text_sensor.TextSensor),
         cv.Optional("heating_stage"): text_sensor.text_sensor_schema(text_sensor.TextSensor),
+        cv.Optional("heat_source_mode"): text_sensor.text_sensor_schema(text_sensor.TextSensor),
+        cv.Optional("hot_water_phase"): text_sensor.text_sensor_schema(text_sensor.TextSensor),
         cv.Optional("operating_mode"): text_sensor.text_sensor_schema(text_sensor.TextSensor),
         cv.Optional("heat_cool"): text_sensor.text_sensor_schema(text_sensor.TextSensor),
         cv.Optional("holiday_mode"): text_sensor.text_sensor_schema(text_sensor.TextSensor),
