@@ -19,10 +19,11 @@ It is highly inspired by https://github.com/BartGijsbers/CN105Gateway.
 ___
 
 ## Hardware
-Info about the hardware can be found at https://github.com/SwiCago/HeatPump. I used the following:
-- https://www.aliexpress.com/item/1005003547145418.html (take the PH2.0 to Dupont, 5P variant of the connector, it fits by cutting away some plastic)
-[- https://www.aliexpress.com/item/32582736130.html (choose Color: With ESP-01S, it has some more memory)](https://www.aliexpress.com/item/1005007115756583.html)
-- if you don't already have an adapter to connect it to your PC for initial programming: https://www.aliexpress.com/item/1005009244738157.html
+Info about the hardware can be found at https://github.com/SwiCago/HeatPump. I would recommend the following items:
+- [ESP to CN105 port connector cable](https://www.aliexpress.com/item/1005003547145418.html) - make sure to select the **Color: PH2.0 to Dupont** and **Pins: 5P** variant of the connector, it fits by cutting away some plastic
+- [ESP-01S 8266 wifi module with adapter board](https://www.aliexpress.com/item/1005007115756583.html) - select **Color: With ESP-01S** to get both the correct microprocessor and the adapter board.
+if you don't already have an adapter to connect the ESP-module to your PC for initial programming: 
+- [ESP programmer board](https://www.aliexpress.com/item/1005009244738157.html) - select **Color: Programmer** 
 The ESP-01S board is not able to receive the updated code unless it is put into programming mode, i.e. GPIO0 is conencted to GND. This is automatically done by some adapter boards, like the one linked above but not all. Please make sure you either procure a board that can set programming mode or solder cables to GPIO0 and GND yourself.
 
 ## Installing
