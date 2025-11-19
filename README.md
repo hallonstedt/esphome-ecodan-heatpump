@@ -23,7 +23,7 @@ Info about the hardware can be found at https://github.com/SwiCago/HeatPump. I u
 - https://www.aliexpress.com/item/1005003547145418.html (take the PH2.0 to Dupont, 5P variant of the connector, it fits by cutting away some plastic)
 [- https://www.aliexpress.com/item/32582736130.html (choose Color: With ESP-01S, it has some more memory)](https://www.aliexpress.com/item/1005007115756583.html)
 - if you don't already have an adapter to connect it to your PC for initial programming: https://www.aliexpress.com/item/1005009244738157.html
-The ESP-01S board is not able to receive the updated code unless it is put into programming mode, i.e. GPIO0 is conencted to GND. This is automatically done by some adapter boards, like the one linked above but not all. Please make sure you eithe rprocure a board that can set programming mode or solder cables yourself so you can 
+The ESP-01S board is not able to receive the updated code unless it is put into programming mode, i.e. GPIO0 is conencted to GND. This is automatically done by some adapter boards, like the one linked above but not all. Please make sure you either procure a board that can set programming mode or solder cables to GPIO0 and GND yourself.
 
 ## Installing
 ### If you are experienced with ESPHome
