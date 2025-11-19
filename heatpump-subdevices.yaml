@@ -124,6 +124,8 @@ sensor:
       name: Frequency
     output_power:
       name: Output power
+    input_power:
+      name: Input power
     gas_return_temp_signed:
       name: Gas return temperature
     outside_temperature:

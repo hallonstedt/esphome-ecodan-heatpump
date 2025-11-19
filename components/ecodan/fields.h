@@ -45,6 +45,7 @@ namespace fields {
 DEFINE_FIELD(error_code, 0x03, 7, VarType_2BYTEHEXVALUE);
 DEFINE_FIELD(frequency, 0x04, 6, VarType_DECVALUE);
 DEFINE_FIELD(output_power, 0x07, 11, VarType_DECVALUE);
+DEFINE_FIELD(input_power, 0x07, 9, VarType_DECVALUE);
 DEFINE_FIELD(zone1_room_temp_setpoint, 0x09, 6, VarType_TEMPERATURE);
 DEFINE_FIELD(zone2_room_temp_setpoint, 0x09, 8, VarType_TEMPERATURE);
 DEFINE_FIELD(zone1_flow_temp_setpoint, 0x09, 10, VarType_TEMPERATURE);
