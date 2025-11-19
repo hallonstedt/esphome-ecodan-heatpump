@@ -24,8 +24,7 @@ Info about the hardware can be found at https://github.com/SwiCago/HeatPump. I w
 - [ESP-01S 8266 wifi module with adapter board](https://www.aliexpress.com/item/1005007115756583.html) - select **Color: With ESP-01S** to get both the correct microprocessor and the adapter board.
 
 if you don't already have an adapter to connect the ESP-module to your PC for initial programming: 
-- [ESP programmer board](https://www.aliexpress.com/item/1005009244738157.html) - select **Color: Programmer** 
-The ESP-01S board is not able to receive the updated code unless it is put into programming mode, i.e. GPIO0 is conencted to GND. This is automatically done by some adapter boards, like the one linked above but not all. Please make sure you either procure a board that can set programming mode or solder cables to GPIO0 and GND yourself.
+- [ESP programmer board](https://www.aliexpress.com/item/1005009244738157.html) - select **Color: Programmer**. The ESP-01S board is not able to receive the updated code unless it is put into programming mode, i.e. GPIO0 is conencted to GND. This is automatically done by some adapter boards, like the one linked above but not all. Please make sure you either procure a board that can set programming mode or solder cables to GPIO0 and GND yourself.
 
 ## Installing
 ### If you are experienced with ESPHome
