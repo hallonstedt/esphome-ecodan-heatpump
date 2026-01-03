@@ -85,6 +85,8 @@ text_sensor:
       name: Current date/time
     defrost:
       name: Defrost
+    input_power_band:
+      name: Input power band
     heating_stage:
       name: Heating stage
     heat_source_mode:
@@ -104,6 +106,9 @@ text_sensor:
   - platform: ecodan
     hot_water_timer:
       name: Hot water timer
+      device_id: hotwater_device
+    dhw_forced:
+      name: Forced DHW
       device_id: hotwater_device
     hot_water_phase:
       name: Hot water phase
@@ -146,6 +151,14 @@ sensor:
       name: Water flow
     energy_consumed_increasing:
       name: Total energy consumed
+    pump_pwm:
+      name: Pump PWM
+    pump_feedback:
+      name: Pump feedback
+    mixing_valve_step:
+      name: Mixing valve step
+    mixing_valve_status:
+      name: Mixing valve status
     energy_cons_yesterday:
       name: Heating energy consumption (yesterday)
       id: energy_cons_yesterday
@@ -248,6 +261,73 @@ sensor:
       return total_prod / total_cons;
     state_class: measurement
     accuracy_decimals: 2
+
+binary_sensor:
+  # Heat pump general status
+  - platform: ecodan
+    status_defrost:
+      name: Defrost active
+    status_compressor:
+      name: Compressor running
+    status_in1_request:
+      name: Thermostat In1 request
+    status_in6_request:
+      name: Thermostat In6 request
+    status_in5_request:
+      name: Outdoor thermostat request
+    status_water_pump:
+      name: Water pump
+    status_water_pump_2:
+      name: Water pump 2
+    status_water_pump_3:
+      name: Water pump 3
+    status_three_way_valve:
+      name: 3-way valve
+    status_three_way_valve_2:
+      name: 3-way valve 2
+    status_server_control:
+      name: Server control
+    status_power:
+      name: Power state
+
+  # Zone-specific status
+  - platform: ecodan
+    status_prohibit_heating_z1:
+      name: Heating prohibit Z1
+      device_id: zone1_device
+    status_prohibit_cool_z1:
+      name: Cooling prohibit Z1
+      device_id: zone1_device
+    status_prohibit_heating_z2:
+      name: Heating prohibit Z2
+      device_id: zone2_device
+    status_prohibit_cool_z2:
+      name: Cooling prohibit Z2
+      device_id: zone2_device
+
+  # Hot water status
+  - platform: ecodan
+    status_booster:
+      name: Booster heater 1
+      device_id: hotwater_device
+    status_booster_2:
+      name: Booster heater 2
+      device_id: hotwater_device
+    status_immersion:
+      name: Immersion heater
+      device_id: hotwater_device
+    status_dhw_forced:
+      name: Forced DHW
+      device_id: hotwater_device
+    status_holiday:
+      name: Holiday mode
+      device_id: hotwater_device
+    status_prohibit_dhw:
+      name: DHW prohibit
+      device_id: hotwater_device
+    status_dhw_eco:
+      name: DHW eco
+      device_id: hotwater_device
 
 switch:
   # Heat pump general switches

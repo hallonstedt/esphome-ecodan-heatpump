@@ -66,6 +66,8 @@ text_sensor:
       name: Current date/time
     defrost:
       name: Defrost
+    input_power_band:
+      name: Input power band
     heating_stage:
       name: Heating stage
     heat_source_mode:
@@ -78,6 +80,8 @@ text_sensor:
       name: Heating/cooling
     hot_water_timer:
       name: Hot water timer
+    dhw_forced:
+      name: Forced DHW
     date_energy_cons:
       name: Date energy consumption
     date_energy_prod:
@@ -150,6 +154,14 @@ sensor:
       id: energy_dhw_prod_yesterday
     energy_consumed_increasing:
       name: Total energy consumed
+    pump_pwm:
+      name: Pump PWM
+    pump_feedback:
+      name: Pump feedback
+    mixing_valve_step:
+      name: Mixing valve step
+    mixing_valve_status:
+      name: Mixing valve status
   # Calculated CoP (yesterday) as ratio of production/consumption
   - platform: template
     name: "CoP (yesterday)"
@@ -198,6 +210,55 @@ sensor:
       return total_prod / total_cons;
     state_class: measurement
     accuracy_decimals: 2
+
+binary_sensor:
+  - platform: ecodan
+    status_defrost:
+      name: Defrost active
+    status_compressor:
+      name: Compressor running
+    status_in1_request:
+      name: Thermostat In1 request
+    status_in6_request:
+      name: Thermostat In6 request
+    status_in5_request:
+      name: Outdoor thermostat request
+    status_booster:
+      name: Booster heater 1
+    status_booster_2:
+      name: Booster heater 2
+    status_immersion:
+      name: Immersion heater
+    status_water_pump:
+      name: Water pump
+    status_water_pump_2:
+      name: Water pump 2
+    status_water_pump_3:
+      name: Water pump 3
+    status_three_way_valve:
+      name: 3-way valve
+    status_three_way_valve_2:
+      name: 3-way valve 2
+    status_dhw_forced:
+      name: Forced DHW
+    status_holiday:
+      name: Holiday mode
+    status_prohibit_dhw:
+      name: DHW prohibit
+    status_prohibit_heating_z1:
+      name: Heating prohibit Z1
+    status_prohibit_cool_z1:
+      name: Cooling prohibit Z1
+    status_prohibit_heating_z2:
+      name: Heating prohibit Z2
+    status_prohibit_cool_z2:
+      name: Cooling prohibit Z2
+    status_server_control:
+      name: Server control
+    status_power:
+      name: Power state
+    status_dhw_eco:
+      name: DHW eco
 
 switch:
   - platform: ecodan
