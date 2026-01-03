@@ -204,6 +204,26 @@ CONFIG_SCHEMA = cv.Schema(
             device_class=DEVICE_CLASS_ENERGY,
             state_class=STATE_CLASS_TOTAL_INCREASING,
         ),
+        cv.Optional("pump_pwm"): sensor.sensor_schema(
+            icon="mdi:gauge",
+            accuracy_decimals=0,
+            state_class=STATE_CLASS_MEASUREMENT,
+        ),
+        cv.Optional("pump_feedback"): sensor.sensor_schema(
+            icon="mdi:meter-electric",
+            accuracy_decimals=0,
+            state_class=STATE_CLASS_MEASUREMENT,
+        ),
+        cv.Optional("mixing_valve_step"): sensor.sensor_schema(
+            icon="mdi:valve",
+            accuracy_decimals=0,
+            state_class=STATE_CLASS_MEASUREMENT,
+        ),
+        cv.Optional("mixing_valve_status"): sensor.sensor_schema(
+            icon="mdi:valve",
+            accuracy_decimals=0,
+            state_class=STATE_CLASS_MEASUREMENT,
+        ),
     }
 ).extend(cv.COMPONENT_SCHEMA)
 

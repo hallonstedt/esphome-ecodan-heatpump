@@ -411,6 +411,8 @@ void EcodanHeatpump::parsePacket(uint8_t *packet) {
   }
 #define ECODAN_PUBLISH_SENSOR(p_s) ECODAN_PUBLISH_ENTITY(p_s, s, parsePacketNumberItem)
   ECODAN_SENSOR_LIST(ECODAN_PUBLISH_SENSOR, )
+#define ECODAN_PUBLISH_BINARY_SENSOR(p_bs) ECODAN_PUBLISH_ENTITY(p_bs, bs, parsePacketBoolItem)
+  ECODAN_BINARY_SENSOR_LIST(ECODAN_PUBLISH_BINARY_SENSOR, )
 #define ECODAN_PUBLISH_TEXT_SENSOR(p_ts) ECODAN_PUBLISH_ENTITY(p_ts, ts, parsePacketTextItem)
   ECODAN_TEXT_SENSOR_LIST(ECODAN_PUBLISH_TEXT_SENSOR, )
 #define ECODAN_PUBLISH_SWITCH(p_sw) ECODAN_PUBLISH_ENTITY(p_sw, sw, parsePacketBoolItem)
@@ -569,6 +571,9 @@ void EcodanHeatpump::dump_config() {
 #define ECODAN_LOG_SENSOR(s) LOG_SENSOR("  ", #s, this->s_##s##_);
   ECODAN_SENSOR_LIST(ECODAN_LOG_SENSOR, )
 
+#define ECODAN_LOG_BINARY_SENSOR(bs) LOG_BINARY_SENSOR("  ", #bs, this->bs_##bs##_);
+  ECODAN_BINARY_SENSOR_LIST(ECODAN_LOG_BINARY_SENSOR, )
+
 #define ECODAN_LOG_TEXT_SENSOR(ts) LOG_TEXT_SENSOR("  ", #ts, this->ts_##ts##_);
   ECODAN_TEXT_SENSOR_LIST(ECODAN_LOG_TEXT_SENSOR, )
 
@@ -619,6 +624,22 @@ void EcodanHeatpump::buildEntityList() {
     } \
   }
   ECODAN_TEXT_SENSOR_LIST(ECODAN_ADD_TEXT_SENSOR, )
+
+#define ECODAN_ADD_BINARY_SENSOR(bs) \
+  if (field_##bs::address != 0xff && this->bs_##bs##_ != nullptr) { \
+    bool already_added = false; \
+    for (const auto& entity : entity_list_) { \
+      if (entity.address == field_##bs::address) { \
+        already_added = true; \
+        break; \
+      } \
+    } \
+    if (!already_added) { \
+      entity_list_.push_back({field_##bs::address, true, "bs"}); \
+      ESP_LOGV(TAG, "Added binary sensor %s at address 0x%02x", #bs, field_##bs::address); \
+    } \
+  }
+  ECODAN_BINARY_SENSOR_LIST(ECODAN_ADD_BINARY_SENSOR, )
 
 #define ECODAN_ADD_SWITCH(sw) \
   if (field_##sw::address != 0xff && this->sw_##sw##_ != nullptr) { \

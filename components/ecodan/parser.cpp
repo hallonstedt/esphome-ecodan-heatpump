@@ -14,6 +14,10 @@ static float parseOneByteTemperature(uint8_t *packet, uint8_t index) {
   return (float) packet[index] / 2 - 39;
 }
 
+static float parseOneByteTemperature40(uint8_t *packet, uint8_t index) {
+  return (float) packet[index] / 2 - 40;
+}
+
 static float parseHexValue(uint8_t *packet, uint8_t index) {
   return (float) packet[index];
 }
@@ -38,6 +42,10 @@ static float parse2ByteHexValue(uint8_t *packet, uint8_t index) {
   return (float) (packet[index] * 256 + packet[index + 1]);
 }
 
+static float parse2ByteValueDiv10(uint8_t *packet, uint8_t index) {
+  return (float) (packet[index] * 256 + packet[index + 1]) / 10.0f;
+}
+
 float parsePacketNumberItem(uint8_t *packet, varTypeEnum varType, uint8_t index) {
   switch (varType) {
   case VarType_TEMPERATURE:
@@ -45,6 +53,9 @@ float parsePacketNumberItem(uint8_t *packet, varTypeEnum varType, uint8_t index)
     break;
   case VarType_ONE_BYTE_TEMPERATURE:
     return parseOneByteTemperature(packet, index);
+    break;
+  case VarType_ONE_BYTE_TEMPERATURE_40:
+    return parseOneByteTemperature40(packet, index);
     break;
   case VarType_HEXVALUE:
     return parseHexValue(packet, index);
@@ -66,6 +77,9 @@ float parsePacketNumberItem(uint8_t *packet, varTypeEnum varType, uint8_t index)
     break;
   case VarType_2BYTEHEXVALUE:
     return parse2ByteHexValue(packet, index);
+    break;
+  case VarType_2BYTEVALUE_DIV10:
+    return parse2ByteValueDiv10(packet, index);
     break;
   default:
     return -1;
@@ -90,23 +104,17 @@ static string parseTimeDate(uint8_t *packet, uint8_t index) {
 static string parseOperatingMode(uint8_t *packet, uint8_t index) {
   switch (packet[index]) {
   case 0:
-    return "Stop";
+    return "Off";
   case 1:
-    return "Hot Water";
+    return "Hot Water On";
   case 2:
-    return "Heating";
+    return "Heating On";
   case 3:
-    return "Cooling";
-  case 4:
-    return "No voltage contact input (HW)";
+    return "Cooling On";
   case 5:
-    return "Freeze Stat";
+    return "Frost Protect";
   case 6:
     return "Legionella";
-  case 7:
-    return "Heating Eco";
-  case 8:
-    return "Mode 1";
   default:
     return unknownValue(packet[index]);
   }
@@ -143,13 +151,9 @@ static string parseModeSetting(uint8_t *packet, uint8_t index) {
 static string parseDeFrost(uint8_t *packet, uint8_t index) {
   switch (packet[index]) {
   case 0:
-    return "Normal";
+    return "Off";
   case 1:
-    return "Standby";
-  case 2:
     return "Defrost";
-  case 3:
-    return "Waiting Restart";
   default:
     return unknownValue(packet[index]);
   }
@@ -189,11 +193,11 @@ static string parseHeatSource(uint8_t *packet, uint8_t index) {
 static string parseHotWaterPhase(uint8_t *packet, uint8_t index) {
   switch (packet[index]) {
   case 0:
-    return "Off";
+    return "Normal";
   case 1:
     return "Heat pump phase";
   case 2:
-    return "Electric heater phase";
+    return "Heater phase";
   default:
     return unknownValue(packet[index]);
   }
@@ -282,6 +286,8 @@ bool parsePacketBoolItem(uint8_t *packet, varTypeEnum varType, uint8_t index) {
   switch (varType) {
   case VarType_ON_OFF:
     return parseOnOff(packet, index);
+  case VarType_DEFROST:
+    return packet[index] != 0;
   default:
     return false;
   }

@@ -8,6 +8,7 @@
 #include "esphome/components/sensor/sensor.h"
 #include "esphome/components/switch/switch.h"
 #include "esphome/components/text_sensor/text_sensor.h"
+#include "esphome/components/binary_sensor/binary_sensor.h"
 #include "esphome/components/uart/uart.h"
 #include "esphome/core/log.h"
 #include "esphome/core/defines.h"
@@ -48,6 +49,10 @@ const uint8_t CONNECT[CONNECT_LEN] = {0xfc, 0x5a, 0x02, 0x7a, 0x02, 0xca, 0x01, 
 
 #ifndef ECODAN_SENSOR_LIST
 #define ECODAN_SENSOR_LIST(F, SEP)
+#endif
+
+#ifndef ECODAN_BINARY_SENSOR_LIST
+#define ECODAN_BINARY_SENSOR_LIST(F, SEP)
 #endif
 
 #ifndef ECODAN_TEXT_SENSOR_LIST
@@ -161,6 +166,10 @@ class EcodanHeatpump : public PollingComponent, public uart::UARTDevice {
 #define ECODAN_SET_SENSOR(s) \
     void set_##s(sensor::Sensor* sensor) { s_##s##_ = sensor; }
     ECODAN_SENSOR_LIST(ECODAN_SET_SENSOR, )
+
+#define ECODAN_SET_BINARY_SENSOR(bs) \
+    void set_##bs(binary_sensor::BinarySensor* sensor) { bs_##bs##_ = sensor; }
+    ECODAN_BINARY_SENSOR_LIST(ECODAN_SET_BINARY_SENSOR, )
 
 #define ECODAN_SET_TEXT_SENSOR(ts) \
     void set_##ts(text_sensor::TextSensor* text_sensor) { ts_##ts##_ = text_sensor; }
@@ -281,6 +290,9 @@ class EcodanHeatpump : public PollingComponent, public uart::UARTDevice {
     // Sensor member pointers
 #define ECODAN_DECLARE_SENSOR(s) sensor::Sensor* s_##s##_{nullptr};
     ECODAN_SENSOR_LIST(ECODAN_DECLARE_SENSOR, )
+
+#define ECODAN_DECLARE_BINARY_SENSOR(bs) binary_sensor::BinarySensor* bs_##bs##_{nullptr};
+    ECODAN_BINARY_SENSOR_LIST(ECODAN_DECLARE_BINARY_SENSOR, )
 
 #define ECODAN_DECLARE_TEXT_SENSOR(ts) text_sensor::TextSensor* ts_##ts##_{nullptr};
     ECODAN_TEXT_SENSOR_LIST(ECODAN_DECLARE_TEXT_SENSOR, )

@@ -11,6 +11,7 @@ enum varTypeEnum {
   VarType_TIME_DATE,
   VarType_TEMPERATURE,
   VarType_ONE_BYTE_TEMPERATURE,
+  VarType_ONE_BYTE_TEMPERATURE_40,
   VarType_POWER_STATE,
   VarType_OPERATING_MODE,
   VarType_WATERFLOW,
@@ -25,6 +26,7 @@ enum varTypeEnum {
   VarType_DATE,
   VarType_3BYTEVALUE,
   VarType_2BYTEHEXVALUE,
+  VarType_2BYTEVALUE_DIV10,
   VarType_ON_OFF,
   VarType_HEAT_STAGE,
   VarType_HEAT_SOURCE,
@@ -58,7 +60,7 @@ DEFINE_FIELD(zone1_room_temperature, 0x0b, 6, VarType_TEMPERATURE);
 DEFINE_FIELD(zone2_room_temperature, 0x0b, 8, VarType_TEMPERATURE);
 DEFINE_FIELD(gas_return_temperature, 0x0b, 13, VarType_TEMPERATURE);
 DEFINE_FIELD(gas_return_temp_signed, 0x0b, 15, VarType_ONE_BYTE_TEMPERATURE);
-DEFINE_FIELD(outside_temperature, 0x0b, 16, VarType_ONE_BYTE_TEMPERATURE);
+DEFINE_FIELD(outside_temperature, 0x0b, 16, VarType_ONE_BYTE_TEMPERATURE_40);
 DEFINE_FIELD(water_feed_temperature, 0x0c, 6, VarType_TEMPERATURE);
 DEFINE_FIELD(water_feed_temp_signed, 0x0c, 8, VarType_ONE_BYTE_TEMPERATURE);
 DEFINE_FIELD(water_return_temperature, 0x0c, 9, VarType_TEMPERATURE);
@@ -86,7 +88,11 @@ DEFINE_FIELD(energy_cooling_cons_yesterday, 0xA1, 12, VarType_3BYTEVALUE);
 DEFINE_FIELD(energy_cooling_prod_yesterday, 0xA2, 12, VarType_3BYTEVALUE);
 DEFINE_FIELD(energy_dhw_cons_yesterday, 0xA1, 15, VarType_3BYTEVALUE);
 DEFINE_FIELD(energy_dhw_prod_yesterday, 0xA2, 15, VarType_3BYTEVALUE);
-DEFINE_FIELD(energy_consumed_increasing, 0x07, 16, VarType_TOTAL_ENERGY);
+DEFINE_FIELD(energy_consumed_increasing, 0x07, 16, VarType_2BYTEVALUE_DIV10);
+DEFINE_FIELD(pump_pwm, 0x15, 7, VarType_DECVALUE);
+DEFINE_FIELD(pump_feedback, 0x15, 8, VarType_DECVALUE);
+DEFINE_FIELD(mixing_valve_step, 0x15, 15, VarType_DECVALUE);
+DEFINE_FIELD(mixing_valve_status, 0x15, 16, VarType_DECVALUE);
 
 // Text fields
 DEFINE_FIELD(date_time, 0x01, 6, VarType_TIME_DATE);
@@ -100,14 +106,39 @@ DEFINE_FIELD(mode_select, 0x26, 11, VarType_MODE_SETTING);
 DEFINE_FIELD(mode_select_zone1, 0x26, 11, VarType_MODE_SETTING);
 DEFINE_FIELD(mode_select_zone2, 0x26, 12, VarType_MODE_SETTING);
 DEFINE_FIELD(heat_cool, 0x26, 12, VarType_HEAT_COOL);
-DEFINE_FIELD(hot_water_timer, 0x28, 9, VarType_ON_OFF);
+// 0x28 byte 3: forced DHW status (legacy name: hot_water_timer)
+DEFINE_FIELD(hot_water_timer, 0x28, 8, VarType_ON_OFF);
+DEFINE_FIELD(dhw_forced, 0x28, 8, VarType_ON_OFF);
 DEFINE_FIELD(date_energy_cons, 0xA1, 6, VarType_DATE);
 DEFINE_FIELD(date_energy_prod, 0xA2, 6, VarType_DATE);
 DEFINE_FIELD(holiday_mode, 0x28, 9, VarType_ON_OFF);
 
 // Boolean fields
 DEFINE_FIELD(power_state, 0x26, 8, VarType_ON_OFF);
-DEFINE_FIELD(force_dhw, 0x05, 12, VarType_ON_OFF);
+DEFINE_FIELD(force_dhw, 0x28, 8, VarType_ON_OFF);
+DEFINE_FIELD(status_defrost, 0x02, 8, VarType_DEFROST);
+DEFINE_FIELD(status_compressor, 0x13, 6, VarType_ON_OFF);
+DEFINE_FIELD(status_in1_request, 0x10, 6, VarType_ON_OFF);
+DEFINE_FIELD(status_in6_request, 0x10, 7, VarType_ON_OFF);
+DEFINE_FIELD(status_in5_request, 0x10, 8, VarType_ON_OFF);
+DEFINE_FIELD(status_booster, 0x14, 7, VarType_ON_OFF);
+DEFINE_FIELD(status_booster_2, 0x14, 8, VarType_ON_OFF);
+DEFINE_FIELD(status_immersion, 0x14, 10, VarType_ON_OFF);
+DEFINE_FIELD(status_water_pump, 0x15, 6, VarType_ON_OFF);
+DEFINE_FIELD(status_water_pump_2, 0x15, 9, VarType_ON_OFF);
+DEFINE_FIELD(status_water_pump_3, 0x15, 10, VarType_ON_OFF);
+DEFINE_FIELD(status_three_way_valve, 0x15, 11, VarType_ON_OFF);
+DEFINE_FIELD(status_three_way_valve_2, 0x15, 12, VarType_ON_OFF);
+DEFINE_FIELD(status_dhw_forced, 0x28, 8, VarType_ON_OFF);
+DEFINE_FIELD(status_holiday, 0x28, 9, VarType_ON_OFF);
+DEFINE_FIELD(status_prohibit_dhw, 0x28, 10, VarType_ON_OFF);
+DEFINE_FIELD(status_prohibit_heating_z1, 0x28, 11, VarType_ON_OFF);
+DEFINE_FIELD(status_prohibit_cool_z1, 0x28, 12, VarType_ON_OFF);
+DEFINE_FIELD(status_prohibit_heating_z2, 0x28, 13, VarType_ON_OFF);
+DEFINE_FIELD(status_prohibit_cool_z2, 0x28, 14, VarType_ON_OFF);
+DEFINE_FIELD(status_server_control, 0x28, 15, VarType_ON_OFF);
+DEFINE_FIELD(status_power, 0x26, 8, VarType_ON_OFF);
+DEFINE_FIELD(status_dhw_eco, 0x26, 10, VarType_ON_OFF);
 } // namespace fields
 } // namespace ecodan
 

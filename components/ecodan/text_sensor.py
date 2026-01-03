@@ -17,6 +17,7 @@ CONFIG_SCHEMA = cv.Schema(
             entity_category=ENTITY_CATEGORY_DIAGNOSTIC,
         ),
         cv.Optional("defrost"): text_sensor.text_sensor_schema(text_sensor.TextSensor),
+        cv.Optional("input_power_band"): text_sensor.text_sensor_schema(text_sensor.TextSensor),
         cv.Optional("heating_stage"): text_sensor.text_sensor_schema(text_sensor.TextSensor),
         cv.Optional("heat_source_mode"): text_sensor.text_sensor_schema(text_sensor.TextSensor),
         cv.Optional("hot_water_phase"): text_sensor.text_sensor_schema(text_sensor.TextSensor),
@@ -24,6 +25,7 @@ CONFIG_SCHEMA = cv.Schema(
         cv.Optional("heat_cool"): text_sensor.text_sensor_schema(text_sensor.TextSensor),
         cv.Optional("holiday_mode"): text_sensor.text_sensor_schema(text_sensor.TextSensor),
         cv.Optional("hot_water_timer"): text_sensor.text_sensor_schema(text_sensor.TextSensor),
+        cv.Optional("dhw_forced"): text_sensor.text_sensor_schema(text_sensor.TextSensor),
         cv.Optional("date_energy_cons"): text_sensor.text_sensor_schema(text_sensor.TextSensor),
         cv.Optional("date_energy_prod"): text_sensor.text_sensor_schema(text_sensor.TextSensor),
     }
