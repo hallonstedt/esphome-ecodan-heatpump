@@ -69,7 +69,7 @@ text_sensor:
     input_power_band:
       name: Input power band
     heating_stage:
-      name: Heating stage
+      name: Input power band (legacy)
     heat_source_mode:
       name: Heat source mode
     hot_water_phase:
@@ -79,7 +79,7 @@ text_sensor:
     heat_cool:
       name: Heating/cooling
     hot_water_timer:
-      name: Hot water timer
+      name: Forced DHW (legacy)
     dhw_forced:
       name: Forced DHW
     date_energy_cons:
@@ -122,6 +122,8 @@ sensor:
       name: Legionella temperature setpoint
     runtime:
       name: Runtime
+    zone_activity_status:
+      name: Zone activity status
     primary_current_limit_raw:
       name: Primary current limit (raw)
     mixing_tank_temperature:

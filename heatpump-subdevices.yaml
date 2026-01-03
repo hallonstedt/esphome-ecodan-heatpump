@@ -88,7 +88,7 @@ text_sensor:
     input_power_band:
       name: Input power band
     heating_stage:
-      name: Heating stage
+      name: Input power band (legacy)
     heat_source_mode:
       name: Heat source mode
     operating_mode:
@@ -105,7 +105,7 @@ text_sensor:
   # Hot water specific text sensors
   - platform: ecodan
     hot_water_timer:
-      name: Hot water timer
+      name: Forced DHW (legacy)
       device_id: hotwater_device
     dhw_forced:
       name: Forced DHW
@@ -141,6 +141,8 @@ sensor:
       name: Water return temperature
     runtime:
       name: Runtime
+    zone_activity_status:
+      name: Zone activity status
     primary_current_limit_raw:
       name: Primary current limit (raw)
     mixing_tank_temperature:
@@ -368,18 +370,18 @@ number:
     zone1_flow_temp_setpoint:
       name: Flow temperature setpoint
       device_id: zone1_device
-    # zone1_room_temp_setpoint:
-    #   name: Room temperature setpoint
-    #   device_id: zone1_device
+    zone1_room_temp_setpoint:
+      name: Room temperature setpoint
+      device_id: zone1_device
   
   # Zone 2 specific numbers
   - platform: ecodan
     zone2_flow_temp_setpoint:
       name: Flow temperature setpoint
       device_id: zone2_device
-    # zone2_room_temp_setpoint:
-    #   name: Room temperature setpoint
-    #   device_id: zone2_device
+    zone2_room_temp_setpoint:
+      name: Room temperature setpoint
+      device_id: zone2_device
   
   # Hot water specific numbers
   - platform: ecodan
