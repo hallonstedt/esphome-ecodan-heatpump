@@ -151,7 +151,7 @@ static string parseModeSetting(uint8_t *packet, uint8_t index) {
 static string parseDeFrost(uint8_t *packet, uint8_t index) {
   switch (packet[index]) {
   case 0:
-    return "Normal";
+    return "Off";
   case 1:
     return "Standby";
   case 2:
@@ -197,7 +197,7 @@ static string parseHeatSource(uint8_t *packet, uint8_t index) {
 static string parseHotWaterPhase(uint8_t *packet, uint8_t index) {
   switch (packet[index]) {
   case 0:
-    return "Normal";
+    return "Off";
   case 1:
     return "Heat pump phase";
   case 2:
