@@ -97,6 +97,7 @@ DEFINE_FIELD(mixing_valve_status, 0x15, 16, VarType_DECVALUE);
 // Text fields
 DEFINE_FIELD(date_time, 0x01, 6, VarType_TIME_DATE);
 DEFINE_FIELD(defrost, 0x02, 8, VarType_DEFROST);
+DEFINE_FIELD(input_power_band, 0x07, 9, VarType_HEAT_STAGE);
 DEFINE_FIELD(heating_stage, 0x07, 9, VarType_HEAT_STAGE);
 DEFINE_FIELD(heat_source_mode, 0x05, 11, VarType_HEAT_SOURCE);
 DEFINE_FIELD(hot_water_phase, 0x05, 12, VarType_HOT_WATER_PHASE);
