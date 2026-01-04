@@ -138,8 +138,10 @@ void EcodanClimate::setup() {
 
 climate::ClimateTraits EcodanClimate::traits() {
   auto traits = climate::ClimateTraits();
-  traits.set_supports_current_temperature(true);
-  traits.set_supports_two_point_target_temperature(false);
+  traits.add_feature_flags(
+    climate::CLIMATE_SUPPORTS_CURRENT_TEMPERATURE |
+    climate::CLIMATE_SUPPORTS_ACTION
+  );
   traits.set_visual_min_temperature(this->min_temperature_);
   traits.set_visual_max_temperature(this->max_temperature_);
   traits.set_visual_target_temperature_step(this->temperature_step_);
@@ -148,8 +150,6 @@ climate::ClimateTraits EcodanClimate::traits() {
   traits.set_supported_modes({
     climate::CLIMATE_MODE_HEAT
   });
-  
-  traits.set_supports_action(true);
   
   return traits;
 }
