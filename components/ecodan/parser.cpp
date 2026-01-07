@@ -106,11 +106,11 @@ static string parseOperatingMode(uint8_t *packet, uint8_t index) {
   case 0:
     return "Off";
   case 1:
-    return "Hot Water On";
+    return "Hot Water";
   case 2:
-    return "Heating On";
+    return "Heating";
   case 3:
-    return "Cooling On";
+    return "Cooling";
   case 5:
     return "Frost Protect";
   case 6:
