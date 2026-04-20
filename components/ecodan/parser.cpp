@@ -214,6 +214,37 @@ static string parseDate(uint8_t *packet, uint8_t index) {
   return textStr;
 }
 
+static string parseFtcSoftwareVersion(uint8_t *packet, uint8_t index) {
+  // 0xC9 response layout (offsets from index which points to packet[6]):
+  // index+0: U1 - Protocol Version (BCD upper/lower nibbles)
+  // index+2: U2 - Model Version (BCD upper/lower nibbles)
+  // index+4: U3 - Capacity of Supply
+  // index+5: V  - FTC Version type
+  uint8_t proto = packet[index];
+  uint8_t model = packet[index + 2];
+  uint8_t ftc_type = packet[index + 5];
+
+  const char* ftc_name;
+  switch (ftc_type) {
+    case 0: ftc_name = "FTC2B"; break;
+    case 1: ftc_name = "FTC4"; break;
+    case 2: ftc_name = "FTC5"; break;
+    case 3: ftc_name = "FTC6"; break;
+    case 5: ftc_name = "FTC7"; break;
+    case 128: ftc_name = "CAHV1A"; break;
+    case 129: ftc_name = "CAHV1B"; break;
+    case 144: ftc_name = "PWFY1"; break;
+    default: ftc_name = "Unknown"; break;
+  }
+
+  char textStr[64];
+  sprintf(textStr, "%d%d.%d%d (%s)",
+    (proto >> 4) & 0x0F, proto & 0x0F,
+    (model >> 4) & 0x0F, model & 0x0F,
+    ftc_name);
+  return textStr;
+}
+
 static string parseOnOffText(uint8_t *packet, uint8_t index) {
   switch (packet[index]) {
   case 0:
@@ -276,6 +307,8 @@ string parsePacketTextItem(uint8_t *packet, varTypeEnum varType, uint8_t index) 
     return parseOnOffText(packet, index);
   case VarType_HEAT_STAGE:
     return parseHeatStage(packet, index);
+  case VarType_FTC_SOFTWARE_VERSION:
+    return parseFtcSoftwareVersion(packet, index);
   default:
     return "";
   }

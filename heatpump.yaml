@@ -63,6 +63,8 @@ text_sensor:
     bssid:
       name: BSSID
   - platform: ecodan
+    ftc_software_version:
+      name: FTC Software Version
     date_time:
       name: Current date/time
     defrost:
