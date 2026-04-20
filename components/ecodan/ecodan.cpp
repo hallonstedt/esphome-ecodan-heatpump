@@ -342,6 +342,10 @@ int EcodanHeatpump::readPacket(uint8_t *data) {
                 isInitialized = true;
                 ESP_LOGI(TAG, "Connected successfully");
               }
+              if (data[1] == 0x7b) {
+                extended_connect_done_ = true;
+                ESP_LOGI(TAG, "Extended connect successful");
+              }
               return RCVD_PKT_CONNECT_SUCCESS;
             } else {
               ESP_LOGE(TAG, "CRC ERROR: expected 0x%02x, got 0x%02x (at data[%d])", checksum, data[expected_length_], expected_length_);
@@ -793,7 +797,19 @@ void EcodanHeatpump::handleInitializing() {
         last_command_time_ = now - INIT_RETRY_DELAY_MS;
       }
     }
-  } else {
+  } else if (!extended_connect_sent_) {
+    // Basic connect done, now send extended connect for 0xC9+ commands
+    ESP_LOGI(TAG, "Basic connect done, sending extended connect");
+    for (int i = 0; i < CONNECT_LEN; i++) {
+      write(EXT_CONNECT[i]);
+    }
+    flush();
+    extended_connect_sent_ = true;
+    last_command_time_ = millis();
+  } else if (extended_connect_done_ || (millis() - last_command_time_ > INIT_RETRY_INTERVAL_MS)) {
+    if (!extended_connect_done_) {
+      ESP_LOGW(TAG, "Extended connect timed out, proceeding anyway");
+    }
     ESP_LOGI(TAG, "Initialization successful after %d attempts", init_retry_count_);
     init_retry_count_ = 0;
     state_ = ComponentState::CONNECTED;
@@ -991,17 +1007,6 @@ void EcodanHeatpump::addEntityIfNotPresent(uint8_t address, const char* type, co
 }
 
 void EcodanHeatpump::buildSensorReadPacket(uint8_t *buffer, uint8_t address) {
-  // 0xC9 (FTC Information) requires a 0x41 set-request trigger with 0x5F
-  // instead of the standard 0x42 get-request. Response still arrives as 0x62.
-  if (address == 0xC9) {
-    static const uint8_t FTC_INFO_REQUEST[PACKET_BUFFER_SIZE] = {
-      0xfc, 0x41, 0x02, 0x7a, 0x10, 0xC9, 0x5F, 0x00, 0x00, 0x00,
-      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-    };
-    memcpy(buffer, FTC_INFO_REQUEST, PACKET_BUFFER_SIZE);
-    return;
-  }
-
   // Standard sensor read packet template
   static const uint8_t READ_PACKET_TEMPLATE[PACKET_BUFFER_SIZE] = {
     0xfc, 0x42, 0x02, 0x7a, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 
