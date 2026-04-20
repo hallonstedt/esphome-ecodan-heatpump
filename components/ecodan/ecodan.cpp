@@ -991,6 +991,17 @@ void EcodanHeatpump::addEntityIfNotPresent(uint8_t address, const char* type, co
 }
 
 void EcodanHeatpump::buildSensorReadPacket(uint8_t *buffer, uint8_t address) {
+  // 0xC9 (FTC Information) requires a 0x41 set-request trigger with 0x5F
+  // instead of the standard 0x42 get-request. Response still arrives as 0x62.
+  if (address == 0xC9) {
+    static const uint8_t FTC_INFO_REQUEST[PACKET_BUFFER_SIZE] = {
+      0xfc, 0x41, 0x02, 0x7a, 0x10, 0xC9, 0x5F, 0x00, 0x00, 0x00,
+      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+    };
+    memcpy(buffer, FTC_INFO_REQUEST, PACKET_BUFFER_SIZE);
+    return;
+  }
+
   // Standard sensor read packet template
   static const uint8_t READ_PACKET_TEMPLATE[PACKET_BUFFER_SIZE] = {
     0xfc, 0x42, 0x02, 0x7a, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 
