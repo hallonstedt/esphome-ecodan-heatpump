@@ -395,7 +395,8 @@ void EcodanHeatpump::parsePacket(uint8_t *packet) {
       if (waiting_for_response_) {
         waiting_for_response_ = false;
       }
-    } else if (!pending_operation_.is_user_command && packet[1] == 0x62 && 
+    } else if (!pending_operation_.is_user_command && 
+               (packet[1] == 0x62 || packet[1] == 0x7b) && 
                packet[5] == pending_operation_.expected_response_address) {
       ESP_LOGV(TAG, "Sensor read completed for address 0x%02x", packet[5]);
       operation_in_progress_ = false;
@@ -408,7 +409,7 @@ void EcodanHeatpump::parsePacket(uint8_t *packet) {
 #define ECODAN_PUBLISH_ENTITY(e, type, parser) \
   if (this->type##_##e##_ != nullptr && \
     field_##e::address == packet[5] && \
-    0x62 == packet[1]) { \
+    (0x62 == packet[1] || 0x7b == packet[1])) { \
     auto value = parser(packet, field_##e::varType, field_##e::varIndex); \
     ESP_LOGV(TAG, "Publishing %s %s with value", #type, #e); \
     type##_##e##_->publish_state(value); \
@@ -1007,6 +1008,17 @@ void EcodanHeatpump::addEntityIfNotPresent(uint8_t address, const char* type, co
 }
 
 void EcodanHeatpump::buildSensorReadPacket(uint8_t *buffer, uint8_t address) {
+  // Extended addresses (0xC9+) use 0x5B extended get request / 0x7B response
+  if (address >= 0xC9) {
+    static const uint8_t EXT_READ_PACKET_TEMPLATE[PACKET_BUFFER_SIZE] = {
+      0xfc, 0x5b, 0x02, 0x7a, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00,
+      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+    };
+    memcpy(buffer, EXT_READ_PACKET_TEMPLATE, PACKET_BUFFER_SIZE);
+    buffer[5] = address;
+    return;
+  }
+
   // Standard sensor read packet template
   static const uint8_t READ_PACKET_TEMPLATE[PACKET_BUFFER_SIZE] = {
     0xfc, 0x42, 0x02, 0x7a, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 
