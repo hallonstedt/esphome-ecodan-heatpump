@@ -221,16 +221,16 @@ static string parseFirmwareVersion(uint8_t *packet, uint8_t index) {
 }
 
 static string parseFtcSoftwareVersion(uint8_t *packet, uint8_t index) {
-  // 0xC9 response layout, if index points to first data byte after command:
+  // 0xC9 response layout (payload offsets, with gap bytes between fields):
   // index+0: U1 - Protocol Version (BCD)
-  // index+1: U2 - Model Version (BCD)
-  // index+2: U3 - Capacity of Supply
-  // index+3: V  - FTC Version type
+  // index+2: U2 - Model Version (BCD)
+  // index+4: U3 - Capacity of Supply
+  // index+5: V  - FTC Version type
 
   uint8_t proto = packet[index + 0];
-  uint8_t model = packet[index + 1];
-  uint8_t capacity = packet[index + 2];
-  uint8_t ftc_type = packet[index + 3];
+  uint8_t model = packet[index + 2];
+  uint8_t capacity = packet[index + 4];
+  uint8_t ftc_type = packet[index + 5];
 
   const char *ftc_name;
   switch (ftc_type) {
