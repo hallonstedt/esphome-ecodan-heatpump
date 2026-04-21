@@ -65,6 +65,8 @@ text_sensor:
   - platform: ecodan
     ftc_software_version:
       name: FTC Software Version
+    firmware_version:
+      name: Firmware Version
     date_time:
       name: Current date-time
     defrost:

@@ -214,34 +214,50 @@ static string parseDate(uint8_t *packet, uint8_t index) {
   return textStr;
 }
 
-static string parseFtcSoftwareVersion(uint8_t *packet, uint8_t index) {
-  // 0xC9 response layout (offsets from index which points to packet[6]):
-  // index+0: U1 - Protocol Version (BCD upper/lower nibbles)
-  // index+2: U2 - Model Version (BCD upper/lower nibbles)
-  // index+4: U3 - Capacity of Supply
-  // index+5: V  - FTC Version type
-  uint8_t proto = packet[index];
-  uint8_t model = packet[index + 2];
-  uint8_t ftc_type = packet[index + 5];
+static string parseFirmwareVersion(uint8_t *packet, uint8_t index) {
+  char textStr[16];
+  sprintf(textStr, "%d.%02d", packet[index], packet[index + 1]);
+  return textStr;
+}
 
-  const char* ftc_name;
+static string parseFtcSoftwareVersion(uint8_t *packet, uint8_t index) {
+  // 0xC9 response layout, if index points to first data byte after command:
+  // index+0: U1 - Protocol Version (BCD)
+  // index+1: U2 - Model Version (BCD)
+  // index+2: U3 - Capacity of Supply
+  // index+3: V  - FTC Version type
+
+  uint8_t proto = packet[index + 0];
+  uint8_t model = packet[index + 1];
+  uint8_t capacity = packet[index + 2];
+  uint8_t ftc_type = packet[index + 3];
+
+  const char *ftc_name;
   switch (ftc_type) {
-    case 0: ftc_name = "FTC2B"; break;
-    case 1: ftc_name = "FTC4"; break;
-    case 2: ftc_name = "FTC5"; break;
-    case 3: ftc_name = "FTC6"; break;
-    case 5: ftc_name = "FTC7"; break;
+    case 0:   ftc_name = "FTC2B"; break;
+    case 1:   ftc_name = "FTC4"; break;
+    case 2:   ftc_name = "FTC5"; break;
+    case 3:   ftc_name = "FTC6"; break;
+    case 5:   ftc_name = "FTC7"; break;
     case 128: ftc_name = "CAHV1A"; break;
     case 129: ftc_name = "CAHV1B"; break;
+    case 130: ftc_name = "CRHV1A"; break;
+    case 131: ftc_name = "CRHV1B"; break;
+    case 132: ftc_name = "EAHV1A"; break;
+    case 133: ftc_name = "EAHV1B"; break;
+    case 134: ftc_name = "QAHV1A"; break;
+    case 135: ftc_name = "QAHV1B"; break;
     case 144: ftc_name = "PWFY1"; break;
-    default: ftc_name = "Unknown"; break;
+    default:  ftc_name = "Unknown"; break;
   }
 
-  char textStr[64];
-  sprintf(textStr, "%d%d.%d%d (%s)",
+  char textStr[96];
+  sprintf(textStr, "Protocol %d%d, Model %d%d, Capacity 0x%02X (%s)",
     (proto >> 4) & 0x0F, proto & 0x0F,
     (model >> 4) & 0x0F, model & 0x0F,
+    capacity,
     ftc_name);
+
   return textStr;
 }
 
@@ -309,6 +325,8 @@ string parsePacketTextItem(uint8_t *packet, varTypeEnum varType, uint8_t index) 
     return parseHeatStage(packet, index);
   case VarType_FTC_SOFTWARE_VERSION:
     return parseFtcSoftwareVersion(packet, index);
+  case VarType_FIRMWARE_VERSION:
+    return parseFirmwareVersion(packet, index);
   default:
     return "";
   }
