@@ -18,6 +18,18 @@ namespace ecodan_ {
 
 static const char *TAG = "ecodan";
 
+static string formatDiagnosticPayload(const uint8_t *packet) {
+  char textStr[16 * 3];
+  size_t pos = 0;
+
+  for (size_t i = 5; i <= 20 && pos < sizeof(textStr); i++) {
+    pos += snprintf(textStr + pos, sizeof(textStr) - pos,
+                    i == 5 ? "%02X" : " %02X", packet[i]);
+  }
+
+  return textStr;
+}
+
 void EcodanSwitch::dump_config() {
   LOG_SWITCH("", "Ecodan Switch", this);
   ESP_LOGCONFIG(TAG, "  Switch has key %s", this->key_.c_str());
@@ -385,6 +397,12 @@ uint8_t EcodanHeatpump::calculateCheckSum(uint8_t *data) {
 
 void EcodanHeatpump::parsePacket(uint8_t *packet) {
   ESP_LOGV(TAG, "Parsing packet: type=0x%02x, payload[0]=0x%02x", packet[1], packet[5]);
+
+  if ((packet[1] == 0x62 || packet[1] == 0x7b) &&
+      (packet[5] == 0x01 || packet[5] == 0xC9)) {
+    ESP_LOGD(TAG, "Diagnostic response 0x%02x: %s", packet[5],
+             formatDiagnosticPayload(packet).c_str());
+  }
   
   // Handle operation responses
   if (operation_in_progress_) {

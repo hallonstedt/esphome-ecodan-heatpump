@@ -94,6 +94,14 @@ static string unknownValue(uint8_t value) {
   return textStr;
 }
 
+static bool isBcdByte(uint8_t value) {
+  return ((value >> 4) & 0x0F) <= 9 && (value & 0x0F) <= 9;
+}
+
+static uint8_t bcdToInt(uint8_t value) {
+  return ((value >> 4) & 0x0F) * 10 + (value & 0x0F);
+}
+
 static string parseTimeDate(uint8_t *packet, uint8_t index) {
   char textStr[50];
   sprintf(textStr, "20%d/%02d/%02d %02d:%02d:%02d", packet[index],
@@ -216,7 +224,30 @@ static string parseDate(uint8_t *packet, uint8_t index) {
 
 static string parseFirmwareVersion(uint8_t *packet, uint8_t index) {
   char textStr[16];
-  sprintf(textStr, "%d.%02d", packet[index], packet[index + 1]);
+  uint8_t major_raw = packet[index];
+  uint8_t minor_raw = packet[index + 1];
+
+  // Mitsubishi documents software versions as packed digits (for example,
+  // 01.23 -> 0123). Prefer BCD decoding when the nibbles look valid.
+  if (isBcdByte(major_raw) && isBcdByte(minor_raw)) {
+    sprintf(textStr, "%02u.%02u", bcdToInt(major_raw), bcdToInt(minor_raw));
+    return textStr;
+  }
+
+  // Fall back to a big-endian packed integer if the bytes are not BCD.
+  uint16_t packed_version = ((uint16_t) major_raw << 8) | minor_raw;
+  if (packed_version <= 9999) {
+    sprintf(textStr, "%02u.%02u", packed_version / 100, packed_version % 100);
+    return textStr;
+  }
+
+  sprintf(textStr, "0x%02X%02X", major_raw, minor_raw);
+  return textStr;
+}
+
+static string parseFirmwareVersionRaw(uint8_t *packet, uint8_t index) {
+  char textStr[16];
+  sprintf(textStr, "0x%02X 0x%02X", packet[index], packet[index + 1]);
   return textStr;
 }
 
@@ -327,6 +358,8 @@ string parsePacketTextItem(uint8_t *packet, varTypeEnum varType, uint8_t index) 
     return parseFtcSoftwareVersion(packet, index);
   case VarType_FIRMWARE_VERSION:
     return parseFirmwareVersion(packet, index);
+  case VarType_FIRMWARE_VERSION_RAW:
+    return parseFirmwareVersionRaw(packet, index);
   default:
     return "";
   }

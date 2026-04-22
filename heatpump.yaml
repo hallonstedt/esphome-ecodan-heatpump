@@ -9,12 +9,17 @@ esphome:
 
 external_components:
 #  - source: github://tobias-93/esphome-ecodan-heatpump@future-climate-2zone
-  - source: github://hallonstedt/esphome-ecodan-heatpump@heat-stage-logging
+#  - source: github://hallonstedt/esphome-ecodan-heatpump@heat-stage-logging
+#    components: [ecodan]
+#    refresh: always
+  - source:
+      type: local
+      path: components
     components: [ecodan]
-    refresh: always
 
 logger:
   baud_rate: 0
+  level: DEBUG
 
 esp8266:
   board: esp01_1m
@@ -67,6 +72,8 @@ text_sensor:
       name: FTC Software Version
     firmware_version:
       name: Firmware Version
+    firmware_version_raw:
+      name: Firmware Version Raw
     date_time:
       name: Current date-time
     defrost:
