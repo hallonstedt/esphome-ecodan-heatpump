@@ -34,7 +34,6 @@ enum varTypeEnum {
   VarType_TOTAL_ENERGY,
   VarType_FTC_SOFTWARE_VERSION,
   VarType_FIRMWARE_VERSION,
-  VarType_FIRMWARE_VERSION_RAW,
 };
 
 namespace fields {
@@ -100,7 +99,6 @@ DEFINE_FIELD(mixing_valve_status, 0x15, 16, VarType_DECVALUE);
 // Text fields
 DEFINE_FIELD(date_time, 0x01, 6, VarType_TIME_DATE);
 DEFINE_FIELD(firmware_version, 0x01, 12, VarType_FIRMWARE_VERSION);
-DEFINE_FIELD(firmware_version_raw, 0x01, 12, VarType_FIRMWARE_VERSION_RAW);
 DEFINE_FIELD(ftc_software_version, 0xC9, 6, VarType_FTC_SOFTWARE_VERSION);
 DEFINE_FIELD(defrost, 0x02, 8, VarType_DEFROST);
 DEFINE_FIELD(input_power_band, 0x07, 9, VarType_HEAT_STAGE);

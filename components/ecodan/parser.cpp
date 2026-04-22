@@ -245,12 +245,6 @@ static string parseFirmwareVersion(uint8_t *packet, uint8_t index) {
   return textStr;
 }
 
-static string parseFirmwareVersionRaw(uint8_t *packet, uint8_t index) {
-  char textStr[16];
-  sprintf(textStr, "0x%02X 0x%02X", packet[index], packet[index + 1]);
-  return textStr;
-}
-
 static string parseFtcSoftwareVersion(uint8_t *packet, uint8_t index) {
   // 0xC9 response layout (payload offsets, with gap bytes between fields):
   // index+0: U1 - Protocol Version (BCD)
@@ -283,9 +277,10 @@ static string parseFtcSoftwareVersion(uint8_t *packet, uint8_t index) {
   }
 
   char textStr[96];
-  sprintf(textStr, "Protocol %d%d, Model %d%d, Capacity 0x%02X (%s)",
+  sprintf(textStr, "Protocol %d%d, Model %d%d, Capacity %u (0x%02X, %s)",
     (proto >> 4) & 0x0F, proto & 0x0F,
     (model >> 4) & 0x0F, model & 0x0F,
+    capacity,
     capacity,
     ftc_name);
 
@@ -358,8 +353,6 @@ string parsePacketTextItem(uint8_t *packet, varTypeEnum varType, uint8_t index) 
     return parseFtcSoftwareVersion(packet, index);
   case VarType_FIRMWARE_VERSION:
     return parseFirmwareVersion(packet, index);
-  case VarType_FIRMWARE_VERSION_RAW:
-    return parseFirmwareVersionRaw(packet, index);
   default:
     return "";
   }

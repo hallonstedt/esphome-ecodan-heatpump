@@ -24,10 +24,6 @@ CONFIG_SCHEMA = cv.Schema(
             text_sensor.TextSensor,
             entity_category=ENTITY_CATEGORY_DIAGNOSTIC,
         ),
-        cv.Optional("firmware_version_raw"): text_sensor.text_sensor_schema(
-            text_sensor.TextSensor,
-            entity_category=ENTITY_CATEGORY_DIAGNOSTIC,
-        ),
         cv.Optional("defrost"): text_sensor.text_sensor_schema(text_sensor.TextSensor),
         cv.Optional("input_power_band"): text_sensor.text_sensor_schema(text_sensor.TextSensor),
         cv.Optional("heating_stage"): text_sensor.text_sensor_schema(text_sensor.TextSensor),
