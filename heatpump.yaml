@@ -9,12 +9,9 @@ esphome:
 
 external_components:
 #  - source: github://tobias-93/esphome-ecodan-heatpump@future-climate-2zone
-#  - source:
-#      type: local
-#      path: components
-#    components: [ecodan]
   - source: github://hallonstedt/esphome-ecodan-heatpump@heat-stage-logging
     components: [ecodan]
+    refresh: always
 
 logger:
   baud_rate: 0
