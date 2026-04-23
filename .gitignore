@@ -52,3 +52,8 @@ Mkfile.old
 dkms.conf
 
 .idea/
+
+# Local tooling noise
+.vscode/settings.json
+.github/copilot-instructions.md
+components/ecodan/__pycache__/
